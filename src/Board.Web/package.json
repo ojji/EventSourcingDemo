@@ -1,0 +1,27 @@
+{
+  "name": "board.web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/wwwroot/app.js",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-cache-bust": "^1.1.0",
+    "gulp-rimraf": "^0.2.1",
+    "gulp-sass": "^3.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ojji/EventSourcingDemo.git"
+  },
+  "author": "ojji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ojji/EventSourcingDemo/issues"
+  },
+  "homepage": "https://github.com/ojji/EventSourcingDemo#readme"
+}
