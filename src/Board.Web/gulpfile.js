@@ -11,6 +11,7 @@ paths.libOutput = paths.webroot + 'lib';
 
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
+    babel = require('gulp-babel'),
     cachebust = require('gulp-cache-bust'),
     del = require('del');
 
@@ -39,6 +40,7 @@ gulp.task('jsCopy', ['jsCopy:lib', 'jsCopy:app']);
 
 gulp.task('jsCopy:app', ['clean'], function () {
     return gulp.src(paths.jsAppSource)
+        .pipe(babel())
         .pipe(gulp.dest(paths.webroot));
 });
 

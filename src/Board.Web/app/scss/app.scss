@@ -1,6 +1,7 @@
 ﻿@charset 'utf-8';
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
+
 @import 'foundation';
 @import 'settings';
 
@@ -14,16 +15,16 @@ $global-flexbox: true !global;
 @include foundation-accordion;
 @include foundation-accordion-menu;
 @include foundation-badge;
-@include foundation-breadcrumbs;
+//@include foundation-breadcrumbs;
 @include foundation-button-group;
 @include foundation-callout;
 @include foundation-card;
-@include foundation-close-button;
+//@include foundation-close-button;
 @include foundation-menu;
 @include foundation-menu-icon;
 @include foundation-drilldown-menu;
-@include foundation-dropdown;
-@include foundation-dropdown-menu;
+//@include foundation-dropdown;
+//@include foundation-dropdown-menu;
 @include foundation-responsive-embed;
 @include foundation-label;
 @include foundation-media-object;
@@ -44,18 +45,36 @@ $global-flexbox: true !global;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
 
+@import 'sidebar';
+@import 'panel';
+@import 'breadcrumbs';
+
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+#content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 .fa {
     font-size: 1.3rem;
 }
 
 .profile-avatar {
     margin-right: $profile-right-margin !important;
-    width: 30px;
-    height: 30px;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
 }
 
 .header {
+    flex: 0 0 auto;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -65,7 +84,7 @@ $global-flexbox: true !global;
         flex-flow: row wrap;
         justify-content: flex-end;
     }
-    
+
     .header-branding {
         flex: 0 0 auto;
         @include breakpoint(small down) {
@@ -82,7 +101,7 @@ $global-flexbox: true !global;
             flex: 1 0 auto;
             text-align: center;
             padding: $header-link-padding;
-            &:hover {
+            &:hover, &:focus {
                 background: darken($topbar-background-color, 10%);
             }
         }
@@ -99,12 +118,14 @@ $global-flexbox: true !global;
     .menu {
         align-items: stretch;        
         height: 100%;
+        width: 100%;
 
         > li {
             flex: 0 0 auto;
             display: flex;
+            position: relative;
             
-            > a, button {
+            > a, > button {
                 padding: $header-link-padding;
                 display: flex;
                 align-items: center;
@@ -124,15 +145,19 @@ $global-flexbox: true !global;
                     }
                 }
                 
-                &:hover {
+                &:hover, &:focus {
                     background: darken($topbar-background-color, 5%);
+                }
+                
+                [data-whatinput='keyboard'] &:focus {
+                    outline: 1px solid $header-focused-link-outline-color;
                 }
             }
         }
     }
     
     input[type="search"] {
-        min-width: 300px;
+        min-width: 250px;
         height: 100%;
         &::placeholder {
             font-size: 1.2rem;
@@ -140,7 +165,119 @@ $global-flexbox: true !global;
     }
 
     a, button {
-        color: white;
+        color: $topbar-link-color;
+    }
+}
+
+ul.dropdown-menu {
+    width: 300px;
+    display: flex;
+    flex-flow: column nowrap;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 1px solid $dropdown-border-color;
+    border-radius: 4px;
+    visibility: hidden;
+    z-index: 80;
+    
+    &.is-open {
+        visibility: visible;
+    }
+
+    .scrolling-content {
+        flex: 1 0 auto;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    a {
+        flex: 1 0 auto;
+        color: black;
+            //background: #efefef;
+        }
+
+    > li {
+        flex: 0 0 auto;
+        display: flex;
+        
+
+        &.dropdown-header {
+            flex: 0 0 auto;
+            font-size: $dropdown-header-font-size;
+            padding: $dropdown-padding;
+            border-bottom: 1px solid $dropdown-border-color;
+        }
+
+        &.dropdown-footer {
+            flex: 0 0 auto;
+            font-size: $dropdown-footer-font-size;
+            > a {
+                padding: $dropdown-padding;
+                text-align: center;
+            }
+        }
+    }
+}
+
+#messages-dropdown {
+    $messages-dropdown-background-color: white;
+    background: $messages-dropdown-background-color;
+
+    .scrolling-content {
+        height: 280px;
+        width: 100%;
+
+        .message {
+            display: flex;
+            flex-flow: row nowrap;
+            border-bottom: 1px solid $dropdown-border-color;
+
+            img {
+                margin: $dropdown-padding;
+            }
+
+            .message-content {
+                font-size: 0.8rem;
+                h6 {
+                    font-weight: bold;
+                    position: relative;
+                    font-size: 0.9rem;
+                    padding-top: $dropdown-padding;
+                    margin-bottom: 0.25rem;
+                    small {
+                        font-weight: normal;
+                        i {
+                            font-size: 0.9rem;
+                            margin-right: 0.2rem;
+                        }
+                        padding-top: $dropdown-padding + 0.2rem;
+                        font-size:0.9rem;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        margin-right: $dropdown-padding;
+                    }
+                }
+                p {
+                    margin-bottom: $dropdown-padding;
+                }
+            }
+        }        
+    }
+
+    a {
+        &:hover, &:focus {
+            background: darken($messages-dropdown-background-color, 5%);
+        }
     }
 }
 
@@ -149,4 +286,8 @@ $global-flexbox: true !global;
     height: 35px;
     border-radius: 50%;
     margin-right: 6px;
+}
+
+[data-whatinput='initial'] button:focus, [data-whatinput='mouse'] button:focus  {
+    outline: 0;
 }
