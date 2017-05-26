@@ -1,5 +1,5 @@
 ﻿using System;
-using Board.Api.Domain.ProjectionNormalizers;
+using Board.Api.Domain.Normalizers;
 using Board.Api.Domain.ReadModels;
 using Board.Api.Domain.Repositories;
 using Board.Api.Domain.Services;

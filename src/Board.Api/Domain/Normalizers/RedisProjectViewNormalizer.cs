@@ -2,11 +2,12 @@
 using Board.Api.Domain.ReadModels;
 using Board.Api.Domain.Repositories;
 using Board.Common.Events;
+using Board.Common.Normalizers;
 using EventStore.ClientAPI;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
-namespace Board.Api.Domain.ProjectionNormalizers
+namespace Board.Api.Domain.Normalizers
 {
     public class RedisProjectViewNormalizer :
         AggregateNormalizer<Project>,
