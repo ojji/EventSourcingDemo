@@ -32,7 +32,7 @@ namespace Board.Api.Domain
         
         public void ChangeDescription(string newDescription)
         {
-            Publish(new ProjectDescriptionChanged(newDescription));
+            Publish(new ProjectDescriptionChanged(Id, Description, newDescription));
         }
 
         public void ChangeProjectType(ProjectType newProjectType)
@@ -40,7 +40,7 @@ namespace Board.Api.Domain
             // there could be a rule like if there are already items/sprints/whatevers on the board, the project type cannot be changed anymore
             if (!ProjectType.Equals(newProjectType))
             {
-                Publish(new ProjectTypeChanged(newProjectType));
+                Publish(new ProjectTypeChanged(Id, ProjectType, newProjectType));
             }
         }
 

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Board.Api.Domain;
 using Board.Api.Domain.Commands;
+using Board.Api.Domain.Repositories;
 using Board.Api.Domain.Services;
 using Board.Api.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +15,33 @@ namespace Board.Api.Controllers
     public class ProjectsController : Controller
     {
         private readonly IProjectManagerService _projectManagerService;
+        private readonly ProjectRepository _projectRepository;
         private readonly ILogger<ProjectsController> _logger;
 
-        public ProjectsController(IProjectManagerService projectManagerService, ILogger<ProjectsController> logger)
+        public ProjectsController(IProjectManagerService projectManagerService,
+            ProjectRepository projectRepository, 
+            ILogger<ProjectsController> logger)
         {
             _projectManagerService = projectManagerService;
+            _projectRepository = projectRepository;
             _logger = logger;
+        }
+
+        [HttpGet]
+        public IActionResult GetProjects()
+        {
+            return Json(_projectRepository.GetAll().Select(p => new { p.ProjectId, p.Name }));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetProjectById(Guid id)
+        {
+            var project = _projectRepository.GetProjectById(id);
+            if (project != null)
+            {
+                return Json(project);
+            }
+            return NotFound();
         }
 
         [HttpPost]

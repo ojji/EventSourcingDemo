@@ -1,11 +1,15 @@
 ﻿using System;
 using Board.Api.Domain;
+using Board.Api.Domain.ProjectionNormalizers;
+using Board.Api.Domain.ReadModels;
+using Board.Api.Domain.Repositories;
 using Board.Api.Domain.Services;
 using EventStore.ClientAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace Board.Api
 {
@@ -18,6 +22,8 @@ namespace Board.Api
             services.AddMvc();
             services.AddTransient<IEventStore, Domain.EventStore>();
             services.AddTransient<IProjectManagerService, ProjectManagerService>();
+            services.AddTransient<ProjectRepository>();
+            services.AddSingleton<RedisProjectViewNormalizer>();
             services.AddSingleton<IEventStoreConnection>(provider =>
             {
                 var connectionSettings = ConnectionSettings
@@ -29,6 +35,9 @@ namespace Board.Api
                 connection.ConnectAsync().Wait();
                 return connection;
             });
+
+            services.AddSingleton<IConnectionMultiplexer>(provider => ConnectionMultiplexer.Connect("localhost"));
+            RedisMapper.RegisterType<ProjectReadModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,11 +45,14 @@ namespace Board.Api
         {
             loggerFactory.AddConsole();
 
+            var normalizer = app.ApplicationServices.GetService<RedisProjectViewNormalizer>();
+            normalizer.Init();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvcWithDefaultRoute();
         }
     }
