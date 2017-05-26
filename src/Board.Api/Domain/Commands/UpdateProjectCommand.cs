@@ -1,4 +1,5 @@
 ﻿using System;
+using Board.Common.Commands;
 
 namespace Board.Api.Domain.Commands
 {

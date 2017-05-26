@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using Board.Common;
 using Board.Common.Events;
 using EventStore.ClientAPI;
 using Microsoft.Extensions.Logging;
 
-namespace Board.Api.Domain.ProjectionNormalizers
+namespace Board.Common.Normalizers
 {
     /// <summary>
     /// Az eventstoreban létrehozunk egy feliratkozást. (kell hozzá a stream neve)

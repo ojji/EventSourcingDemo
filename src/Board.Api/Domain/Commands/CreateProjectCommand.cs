@@ -1,4 +1,6 @@
-﻿namespace Board.Api.Domain.Commands
+﻿using Board.Common.Commands;
+
+namespace Board.Api.Domain.Commands
 {
     public class CreateProjectCommand : ICommand
     {

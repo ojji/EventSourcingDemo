@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Board.Api.Domain.Commands
+namespace Board.Common.Commands
 {
     public interface ICommand
     {

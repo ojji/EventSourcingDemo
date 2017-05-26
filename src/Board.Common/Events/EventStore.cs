@@ -1,12 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Board.Api.Domain.Events;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Board.Api.Domain
+namespace Board.Common.Events
 {
     public class EventStore : IEventStore
     {

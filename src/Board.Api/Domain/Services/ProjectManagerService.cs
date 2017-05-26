@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Board.Api.Domain.Commands;
+using Board.Common.Commands;
+using Board.Common.Events;
 
 namespace Board.Api.Domain.Services
 {

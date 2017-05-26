@@ -1,4 +1,5 @@
 ﻿using System;
+using Board.Common.Events;
 
 namespace Board.Api.Domain.Events
 {

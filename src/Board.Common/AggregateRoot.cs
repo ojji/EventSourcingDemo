@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Board.Api.Domain.Events;
+using Board.Common.Events;
 
-namespace Board.Api.Domain
+namespace Board.Common
 {
     public abstract class AggregateRoot
     {

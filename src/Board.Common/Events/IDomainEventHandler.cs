@@ -1,4 +1,4 @@
-﻿namespace Board.Api.Domain.Events
+﻿namespace Board.Common.Events
 {
     public interface IDomainEventHandler<in TEvent> where TEvent : IDomainEvent
     {

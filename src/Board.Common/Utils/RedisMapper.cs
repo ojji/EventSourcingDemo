@@ -5,7 +5,7 @@ using System.Reflection;
 using FastMember;
 using StackExchange.Redis;
 
-namespace Board.Api.Domain
+namespace Board.Common.Utils
 {
     public static class RedisMapper
     {

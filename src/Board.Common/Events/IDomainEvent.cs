@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Board.Api.Domain.Events
+namespace Board.Common.Events
 {
     public interface IDomainEvent
     {

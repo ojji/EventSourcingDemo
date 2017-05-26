@@ -3,7 +3,7 @@ using System.Text;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
-namespace Board.Api.Domain.Events
+namespace Board.Common.Events
 {
     public static class EventConverterExtensions
     {

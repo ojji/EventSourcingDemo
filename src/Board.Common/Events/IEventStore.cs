@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Board.Api.Domain
+namespace Board.Common.Events
 {
     public interface IEventStore
     {

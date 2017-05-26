@@ -1,9 +1,10 @@
 ﻿using System;
-using Board.Api.Domain;
 using Board.Api.Domain.ProjectionNormalizers;
 using Board.Api.Domain.ReadModels;
 using Board.Api.Domain.Repositories;
 using Board.Api.Domain.Services;
+using Board.Common.Events;
+using Board.Common.Utils;
 using EventStore.ClientAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,7 @@ namespace Board.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<IEventStore, Domain.EventStore>();
+            services.AddTransient<IEventStore, Board.Common.Events.EventStore>();
             services.AddTransient<IProjectManagerService, ProjectManagerService>();
             services.AddTransient<ProjectRepository>();
             services.AddSingleton<RedisProjectViewNormalizer>();

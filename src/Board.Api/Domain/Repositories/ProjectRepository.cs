@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Board.Api.Domain.ReadModels;
+using Board.Common.Utils;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 

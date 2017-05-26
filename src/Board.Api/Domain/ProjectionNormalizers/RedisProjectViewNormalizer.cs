@@ -1,6 +1,7 @@
 ﻿using Board.Api.Domain.Events;
 using Board.Api.Domain.ReadModels;
 using Board.Api.Domain.Repositories;
+using Board.Common.Events;
 using EventStore.ClientAPI;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
