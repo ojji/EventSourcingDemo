@@ -5,7 +5,6 @@ using Board.Common.Events;
 using Board.Common.Normalizers;
 using EventStore.ClientAPI;
 using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
 
 namespace Board.Api.Domain.Normalizers
 {
@@ -18,7 +17,7 @@ namespace Board.Api.Domain.Normalizers
         private readonly ILogger<RedisProjectViewNormalizer> _logger;
         private readonly ProjectRepository _projectRepository;
 
-        public RedisProjectViewNormalizer(IEventStoreConnection eventStoreConnection, IConnectionMultiplexer redisConnection, ILogger<RedisProjectViewNormalizer> logger, ProjectRepository projectRepository) : base(eventStoreConnection, (ILogger<AggregateNormalizer<Project>>) logger) 
+        public RedisProjectViewNormalizer(IEventStoreConnection eventStoreConnection, ILogger<RedisProjectViewNormalizer> logger, ProjectRepository projectRepository) : base(eventStoreConnection, (ILogger<AggregateNormalizer<Project>>) logger) 
         {
             _logger = logger;
             _projectRepository = projectRepository;
@@ -33,7 +32,8 @@ namespace Board.Api.Domain.Normalizers
                 ProjectId = @event.ProjectId,
                 Name = @event.ProjectName,
                 Description = @event.Description,
-                ProjectType = @event.ProjectType.ToProjectTypeString()
+                ProjectType = @event.ProjectType.ToProjectTypeString(),
+                IsCompleted = false
             };
 
             _projectRepository.Save(readModel, justCreated: true);

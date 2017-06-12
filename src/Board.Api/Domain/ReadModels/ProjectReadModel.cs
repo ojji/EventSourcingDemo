@@ -8,5 +8,6 @@ namespace Board.Api.Domain.ReadModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string ProjectType { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

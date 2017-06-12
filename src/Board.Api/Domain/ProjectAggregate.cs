@@ -13,6 +13,7 @@ namespace Board.Api.Domain
         public string Name { get; private set; }
         public ProjectType ProjectType { get; private set; }
         public string Description { get; private set; }
+        public bool IsCompleted { get; private set; }
 
         public void Create(string projectName, string description, ProjectType projectType)
         {
@@ -53,6 +54,7 @@ namespace Board.Api.Domain
             Name = @event.ProjectName;
             Description = @event.Description;
             ProjectType = @event.ProjectType;
+            IsCompleted = false;
         }
 
         public void ApplyEvent(ProjectDescriptionChanged @event)
