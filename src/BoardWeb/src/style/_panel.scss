@@ -1,0 +1,99 @@
+﻿@import 'colors';
+@import 'settings';
+
+$panel-margin: 1.25rem 0;
+$panel-header-padding: 0.5rem;
+$panel-content-padding: 0.5rem;
+$panel-footer-padding: 0.5rem;
+$panel-border-radius: 0;
+$panel-header-font-size: 1.2rem;
+$panel-content-font-size: 0.9rem;
+$panel-footer-font-size: 0.9rem;
+
+
+.panel {
+    margin: $panel-margin;
+    border-radius: $panel-border-radius;
+    border-left: 5px solid get-board-color(green-accent-1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
+    .panel-header {
+        line-height: 2rem;
+        padding: $panel-header-padding;
+        position: relative;
+        font-size: $panel-header-font-size;
+    }
+
+    .panel-content {
+        padding: $panel-content-padding;
+        font-size: $panel-content-font-size;
+    }
+
+    .panel-footer {
+        padding: $panel-footer-padding;
+        font-size: $panel-footer-font-size;
+    }
+
+    .buttons-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: $panel-header-padding;
+    }
+
+    &.minimized {
+        .panel-content, .panel-footer {
+            display:none;
+        }
+    }
+}
+
+$closebutton-color: rgba(0,0,0,0.5);
+$closebutton-color-hover: rgba(0,0,0,0.3);
+$minimizebutton-color: $closebutton-color;
+$minimizebutton-color-hover: $closebutton-color-hover;
+$panel-button-size: 1.5rem;
+$panel-button-background: white;
+//$panel-button-background: get-board-color(gray-accent-1);
+
+$panel-button-border-color: rgba(0,0,0,0.2);
+$panel-button-border-radius: $panel-border-radius;
+
+.close-button, .minimize-button {
+    width: $panel-button-size;
+    height: $panel-button-size;
+    line-height: $panel-button-size;
+    font-size: $panel-button-size;
+    cursor: pointer;
+    background: $panel-button-background;
+    border: 1px solid $panel-button-border-color;
+    border-radius: $panel-button-border-radius;
+}
+
+.close-button {
+    color: $closebutton-color;
+    &:active, &:visited {
+        color: $closebutton-color;
+    }
+    &:hover {
+        color: $closebutton-color-hover;
+    }
+
+    [data-whatinput='keyboard'] &:focus {
+        color: $minimizebutton-color-hover;
+    }
+}
+
+.minimize-button {
+    color: $minimizebutton-color;
+    &:active, &:visited {
+        color: $minimizebutton-color;
+    }
+    &:hover {
+        color: $minimizebutton-color-hover;
+    }
+
+    [data-whatinput='keyboard'] &:focus {
+        color: $minimizebutton-color-hover;
+    }
+}

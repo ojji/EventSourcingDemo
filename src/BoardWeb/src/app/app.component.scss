@@ -1,0 +1,178 @@
+﻿@import '../style/style';
+@import '../style/settings';
+
+@import '../style/sidebar';
+@include foundation-breadcrumbs;
+
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+#search {
+    align-self: center;
+
+    input[type="search"] {
+        background-color: transparent;
+        width: $search-box-width;
+        color: white;
+        border: none;
+        border-bottom: 1px solid white;        
+
+        &:focus {
+            outline: none;
+            appearance: none;
+            box-shadow: none;
+
+            &::-webkit-input-placeholder {
+                transition: opacity 0.14s ease all; 
+                opacity: 0;
+            }
+        }
+
+        &:focus ~ .bar:before, &:focus ~ .bar:after {
+            width:50%;
+        }
+
+        &::placeholder {
+            font-size: 0.9rem;
+        }
+    }
+
+    .bar {
+        display: block;
+        position: relative;
+        width: $search-box-width;
+
+        &:before, &:after {
+            position: absolute;
+            content: '';
+            width: 0;
+            height: 3px;
+            background: $search-box-underline-color;
+            bottom: 0;
+            transition:0.14s ease all;
+        }
+
+        &:before {
+            right: 50%;
+        }
+
+        &:after {
+            left: 50%;
+        }
+    }
+}
+
+.header {
+    flex: 0 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    background: $topbar-background-color;
+
+    @include breakpoint(small down) {
+        flex-flow: row wrap;
+        justify-content: flex-end;
+    }
+
+    .header-branding {
+        flex: 0 0 auto;
+        @include breakpoint(small down) {
+            flex: 0 0 100%;
+        }
+
+        font-size: 1.25rem;
+        line-height: 2.5rem;
+        background: $topbar-background-color;
+        @include breakpoint(small down) {
+            background: darken($topbar-background-color, 5%);
+        }
+        display: flex;
+        justify-content: center;
+
+        a {
+            flex: 1 0 auto;
+            text-align: center;
+            padding: $header-link-padding;
+            &:hover, &:focus {
+                background: darken($topbar-background-color, 10%);
+            }
+        }
+
+        .lightblue {
+            color: #00ABFF;
+        }
+    }
+    
+    .header-left {
+        flex: 1 0 auto;
+    }
+    
+    .header-right {
+        flex: 0 0 auto;
+    }
+
+    .menu {
+        align-items: stretch;
+        height: 100%;
+        width: 100%;
+
+        > li {
+            flex: 0 0 auto;
+            display: flex;
+            position: relative;
+            align-items: stretch;
+
+            .notifications {
+            	display: flex;
+            }
+            
+            a, button {
+                padding: $header-link-padding;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                
+                &:hover, &:focus {
+                    background: $topbar-hover-background-color;
+                }
+                
+                [data-whatinput='keyboard'] &:focus {
+                    outline: 1px solid $header-focused-link-outline-color;
+                }
+            }
+        }
+    }   
+
+    a, button {
+        color: $topbar-link-color;
+    }
+}
+
+#content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.breadcrumbs-container {
+    padding: $breadcrumbs-container-padding;
+    background-color: $breadcrumbs-background-color;
+    border-bottom: 1px solid #E5E9EC;
+
+    .breadcrumbs {
+        margin: 0;
+    }
+}
+
+#content {
+    background: #EEF2F5;
+}
+
+#main-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}

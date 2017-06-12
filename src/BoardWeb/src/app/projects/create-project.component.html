@@ -1,0 +1,29 @@
+<h1>Create a new project</h1>
+
+<div class="row expanded">
+	<div class="small-12 large-8 column">
+		<form #createProjectForm="ngForm" (ngSubmit)="onCreate(createProjectForm.value, createProjectForm.valid)" novalidate>
+			<label for="name">*Project name:</label>
+			<input type="text" [(ngModel)]="project.name" name="name" required placeholder="Enter project name..." #name="ngModel" />
+			<div [hidden]="name.valid || name.untouched" class="errorlabel">
+				<span>The project name is required.</span>
+			</div>
+
+			<label for="description">Description:</label>
+			<textarea [(ngModel)]="project.description" name="description" placeholder="Enter description..." rows="3"></textarea>
+
+			<label for="projectType">*Project type:</label>
+			<select name="projectType" [(ngModel)]="project.projectType" required #projectType="ngModel">
+				<option *ngFor="let projectType of projectTypes" [value]="projectType">{{projectType}}</option>
+			</select>
+			<div [hidden]="projectType.valid || projectType.untouched" class="errorlabel">
+				<span>You have to select a project type.</span>
+			</div>
+
+			<div class="formbuttons">
+				<button class="button hollow" (click)="onBack()">Back</button>
+				<button class="button" type="submit" [disabled]="!createProjectForm.valid">Create</button>
+			</div>
+		</form>
+	</div>	
+</div>

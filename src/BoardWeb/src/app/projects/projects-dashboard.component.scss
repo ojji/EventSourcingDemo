@@ -1,0 +1,100 @@
+.fa {
+	vertical-align: middle;
+	font-size: 1rem;
+	line-height: 1.2rem;
+}
+
+$card-top-margin: 2rem;
+$card-content-padding: 1.5rem;
+$card-footer-padding: 1rem 1.5rem;
+$card-border-color: #EBEEF2;
+$card-border-radius: 4px;
+$card-light-text-color: #BAC0CC;
+$card-dark-text-color: #5B6981;
+$card-completed-green: #67BE1F;
+$card-footer-background: #FAFBFD;
+$card-content-background: white;
+
+.project-card {
+	margin-top: $card-top-margin;
+	border: 1px solid $card-border-color;
+	overflow: hidden;
+	border-radius: $card-border-radius;
+	box-shadow: 0px 2px 1px 0px rgba(145,145,145,0.3);
+
+	&.completed .project-card-content {
+		background: $card-footer-background;
+	}
+
+	.project-card-content {
+		padding: $card-content-padding;
+		min-height: 180px;
+		background: $card-content-background;
+
+		.project-status {
+			color: $card-light-text-color;
+			font-size: 0.8rem;
+			margin-bottom: 0;
+			text-transform: uppercase;
+		}
+
+		.title {
+			color: $card-dark-text-color;
+			font-size: 1.2rem;
+		}
+	}
+
+	.project-card-footer {
+		border-top: 1px solid $card-border-color;
+		background: $card-footer-background;
+		color: $card-dark-text-color;
+		padding: $card-footer-padding;
+		font-size: 0.8rem;
+		line-height: 1.2rem;
+		text-transform: uppercase;
+		font-weight: bold;
+
+		.green {
+			color: $card-completed-green;
+		}
+	}
+
+	.big-stats {
+		border: 1px solid $card-border-color;
+		border-radius: $card-border-radius;
+		display: flex;		
+		margin-top: 1rem;
+		position: relative;
+
+		> div {
+			flex: 0 0 50%;
+			display: flex;
+			flex-flow: row nowrap;
+			align-items: center;
+			padding: 0.5rem 1rem;			
+			
+			.big-number {
+				font-size: 2rem;
+				font-weight: bold;
+				margin-right: 0.5rem;
+				color: $card-dark-text-color;
+			}
+
+			.small-text {
+				font-size: 0.8rem;
+				text-transform: uppercase;
+				color: $card-light-text-color;
+			}
+		}		
+	
+		&:after {
+			position: absolute;
+			content: '';
+			left: 50%;
+			height: 70%;
+			top: 50%;
+			transform: translateY(-50%);
+			border-left: 1px solid $card-border-color;
+		}
+	}
+}

@@ -1,0 +1,59 @@
+@import 'settings';
+
+ul.dropdown-menu {
+    width: 300px;
+    display: flex;
+    flex-flow: column nowrap;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 1px solid $dropdown-border-color;
+    border-radius: 4px;
+    visibility: hidden;
+    z-index: 80;
+    
+    &.is-open {
+        visibility: visible;
+    }
+
+    .scrolling-content {
+        flex: 1 0 auto;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    a {
+        flex: 1 0 auto;
+        color: black;
+            //background: #efefef;
+        }
+
+    > li {
+        flex: 0 0 auto;
+        display: flex;
+
+        &.dropdown-header {
+            flex: 0 0 auto;
+            font-size: $dropdown-header-font-size;
+            padding: $dropdown-padding;
+            border-bottom: 1px solid $dropdown-border-color;
+        }
+
+        &.dropdown-footer {
+            flex: 0 0 auto;
+            font-size: $dropdown-footer-font-size;
+            > a {
+                padding: $dropdown-padding;
+                text-align: center;
+            }
+        }
+    }
+}

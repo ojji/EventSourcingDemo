@@ -1,0 +1,36 @@
+<h1>Projects</h1>
+<a routerLink="/create-project">Create new...</a>
+
+<div class="row expanded">
+	<div *ngFor="let project of projects" class="small-12 medium-6 large-4 column">
+		<div class="project-card" [ngClass]="{'completed': project.isCompleted}">
+			<div class="project-card-content">
+				<p *ngIf="!project.isCompleted" class="project-status">Sprint #1</p>
+				<p *ngIf="project.isCompleted" class="project-status">Completed project</p>
+				<span class="title">{{project.name}}</span>				
+				<div *ngIf="!project.isCompleted" class="big-stats">
+					<div>
+						<div class="big-number">7</div>
+						<div class="small-text">days left in sprint</div>
+					</div>
+					<div>
+						<div class="big-number">10</div>
+						<div class="small-text">work items remaining</div>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="project.isCompleted" class="project-card-footer">
+				<i class="fa fa-check-square-o green" aria-hidden="true"></i>
+				<span>Completed</span>
+			</div>
+			<div *ngIf="!project.isCompleted" class="project-card-footer">
+				<span class="member">A</span>
+				<span class="member">A</span>
+				<span class="member">A</span>
+				<span class="member">A</span>
+				<span class="member">A</span>
+				<span class="member">A</span>
+			</div>
+		</div>
+	</div>
+</div>

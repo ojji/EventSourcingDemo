@@ -1,0 +1,27 @@
+label {
+	font-size: 1.1rem;
+}
+
+.formbuttons {
+	display: flex;
+	justify-content: space-between;
+	button {
+		width: 6rem;
+		flex: 0 0 auto;
+	}
+}
+
+.ng-touched.ng-invalid:not(form) {
+	border-left: 4px solid red;
+}
+
+.ng-valid[required], .ng-valid.required {
+	border-left: 4px solid green;
+}
+
+.errorlabel {
+	color: red;
+	margin-top: -1rem;
+	margin-bottom: 1rem;
+	font-size: 0.8rem;
+}

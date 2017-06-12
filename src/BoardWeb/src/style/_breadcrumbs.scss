@@ -1,0 +1,12 @@
+﻿@import 'settings';
+
+@include foundation-breadcrumbs;
+
+.breadcrumbs-container {
+    padding: $breadcrumbs-container-padding;
+    background-color: $breadcrumbs-background-color;
+
+    .breadcrumbs {
+        margin: 0;
+    }
+}

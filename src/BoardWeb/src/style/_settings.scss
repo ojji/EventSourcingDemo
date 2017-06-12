@@ -1,0 +1,36 @@
+$topbar-padding: 0em;
+$topbar-menu-hover-background: rgba(0, 0, 0, 0.1);
+
+// square menu buttons
+$topbar-input-width: 500px;
+$menu-item-padding: 0.5rem;
+$profile-right-margin: 1rem;
+
+// my top bar
+$topbar-background-color: #022B3F;
+$header-link-padding: 0.5rem 1rem;
+$topbar-link-color: white;
+$header-focused-link-outline-color: #00ABFF;
+$topbar-hover-background-color: lighten($topbar-background-color, 10%);
+
+// topbar dropdown
+$dropdown-header-font-size: 0.9rem;
+$dropdown-footer-font-size: 0.8rem;
+$dropdown-padding: 0.5rem;
+$dropdown-border-color: #eee;
+
+// sidebar
+//$left-sidebar-background-color: #011a26;
+$left-sidebar-background-color: $topbar-background-color;
+$left-sidebar-hover-color: lighten($left-sidebar-background-color, 5%);
+$left-sidebar-link-color: #e5e5e5;
+$content-background-color: white;
+
+// breadcrumbs
+$breadcrumbs-item-color: black;
+$breadcrumbs-container-padding: 1rem;
+$breadcrumbs-background-color: white;
+
+// search box in topbar
+$search-box-width: 250px;
+$search-box-underline-color: #00ABFF;

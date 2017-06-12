@@ -1,0 +1,104 @@
+﻿@import 'settings';
+@import 'colors';
+
+$sidebar-font-size: 0.9rem;
+
+#content-wrapper {
+    // non-default-state, aka when the toggler is on
+    #left-sidebar {
+        flex: 0 0 3.5rem;
+        @include breakpoint(small down) {
+            flex: 0 0 12.5rem;
+        }
+
+        .menu > li > a > span {
+            display: none;            
+            text-transform: uppercase;
+            font-size: $sidebar-font-size;
+
+            @include breakpoint(small down) { 
+                display: inline;
+                margin-left: 0.5rem;
+            }
+        }
+    }
+
+    #content {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        @include breakpoint(small down) {
+            transform: translateX(12.5rem);
+            margin-left: -12.5rem;
+        }
+    }
+
+    &.left-sidebar-defaultstate {
+        #left-sidebar {
+            flex: 0 0 12.5rem;
+
+            @include breakpoint(small down) {
+                display: none;
+            }
+
+            .menu > li > a > span {
+                display: inline;
+                text-transform: uppercase;
+                font-size: $sidebar-font-size;
+                margin-left: 0.5rem;
+            }
+        }
+
+        #content {
+            flex: 1 1 auto;
+            transform: translateX(0);
+            margin-left: 0rem;
+            overflow-y: auto;
+        }
+    }    
+}
+
+#left-sidebar {
+    background-color: $left-sidebar-background-color;    
+    overflow: auto;    
+
+    li > a {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        padding-right: 0.5rem;
+        padding-left: 1rem;
+        color: $left-sidebar-link-color;
+        line-height: 2rem;
+
+        @each $colorName, $color in $palette {
+            &.#{$colorName} > i {
+                    color: $color;
+                }
+        }
+        
+        // colors for different buttons
+        &:hover, &.active {     
+            border-left: 0.25rem solid $left-sidebar-link-color;
+            padding-left: 0.75rem;
+            background-color: $left-sidebar-hover-color;
+
+            @each $colorName, $color in $palette {
+                &.#{$colorName} {                    
+                    border-left: 0.25rem solid $color;                    
+                }
+            }
+        }
+
+        // icons
+        > i {
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+        }
+    }
+}
+
+#content {
+    background-color: $content-background-color;
+}
+
