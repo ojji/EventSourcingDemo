@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { MomentModule } from 'angular2-moment';
 
 import { AppRoutesModule } from './app-routes.module';
@@ -18,6 +19,7 @@ import { ProjectService } from './projects/project.service'
     	BrowserModule, 
     	CommonModule,
     	FormsModule,
+        HttpModule,
     	MomentModule,    	
     	AppRoutesModule ],
     providers: [ ProjectService ],

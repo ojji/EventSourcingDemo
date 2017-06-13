@@ -4,8 +4,8 @@ export enum ProjectType {
 };
 
 export class Project {
-	id: string;
-	name: string;
+	projectId: string;
+	projectName: string;
 	description: string;
 	projectType: ProjectType;
 	members: string[];

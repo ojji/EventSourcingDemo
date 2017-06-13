@@ -4,8 +4,8 @@
 	<div class="small-12 large-8 column">
 		<form #createProjectForm="ngForm" (ngSubmit)="onCreate(createProjectForm.value, createProjectForm.valid)" novalidate>
 			<label for="name">*Project name:</label>
-			<input type="text" [(ngModel)]="project.name" name="name" required placeholder="Enter project name..." #name="ngModel" />
-			<div [hidden]="name.valid || name.untouched" class="errorlabel">
+			<input type="text" [(ngModel)]="project.projectName" name="projectName" required placeholder="Enter project name..." #projectName="ngModel" />
+			<div [hidden]="projectName.valid || projectName.untouched" class="errorlabel">
 				<span>The project name is required.</span>
 			</div>
 

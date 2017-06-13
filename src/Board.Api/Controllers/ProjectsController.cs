@@ -30,7 +30,7 @@ namespace Board.Api.Controllers
         [HttpGet]
         public IActionResult GetProjects()
         {
-            return Json(_projectRepository.GetAll().Select(p => new { p.ProjectId, p.Name }));
+            return Json(_projectRepository.GetAll().Select(p => new { p.ProjectId, p.ProjectName, p.ProjectType }));
         }
 
         [HttpGet("{id}")]

@@ -30,7 +30,7 @@ namespace Board.Api.Domain.Normalizers
             var readModel = new ProjectReadModel
             {
                 ProjectId = @event.ProjectId,
-                Name = @event.ProjectName,
+                ProjectName = @event.ProjectName,
                 Description = @event.Description,
                 ProjectType = @event.ProjectType.ToProjectTypeString(),
                 IsCompleted = false

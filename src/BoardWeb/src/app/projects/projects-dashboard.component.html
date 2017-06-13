@@ -7,7 +7,7 @@
 			<div class="project-card-content">
 				<p *ngIf="!project.isCompleted" class="project-status">Sprint #1</p>
 				<p *ngIf="project.isCompleted" class="project-status">Completed project</p>
-				<span class="title">{{project.name}}</span>				
+				<span class="title">{{project.projectName}}</span>
 				<div *ngIf="!project.isCompleted" class="big-stats">
 					<div>
 						<div class="big-number">7</div>
