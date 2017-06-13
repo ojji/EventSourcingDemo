@@ -10,7 +10,7 @@ namespace Board.Common.Events
         public static EventData ToEventData<TDomainEvent>(this TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
             var eventBody = JsonConvert.SerializeObject(@event);
-            EventData eventData = new EventData(@event.EventId, @event.GetType().FullName, true, Encoding.UTF8.GetBytes(eventBody), null);
+            EventData eventData = new EventData(@event.EventId, @event.GetType().AssemblyQualifiedName, true, Encoding.UTF8.GetBytes(eventBody), null);
 
             return eventData;
         }
