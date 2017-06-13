@@ -20,6 +20,7 @@ namespace Board.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc();
             services.AddTransient<IEventStore, Board.Common.Events.EventStore>();
             services.AddTransient<IProjectManagerService, ProjectManagerService>();
@@ -53,7 +54,12 @@ namespace Board.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:5000")
+                    .AllowAnyHeader().AllowAnyMethod();
+            }); 
             app.UseMvcWithDefaultRoute();
         }
     }
