@@ -6,6 +6,7 @@ using Board.Api.Domain.Commands;
 using Board.Api.Domain.Repositories;
 using Board.Api.Domain.Services;
 using Board.Api.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -56,11 +57,27 @@ namespace Board.Api.Controllers
 
             if (commandResult.IsSuccessful)
             {
-                return Ok();
+                var location = GetNewResourceLocation(Request, commandResult.AffectedAggregate);
+                return Created(location, null);
             }
 
             _logger.LogError(commandResult.FailReasons[0]);
             return BadRequest(commandResult.FailReasons);
+        }
+
+        private Uri GetNewResourceLocation(HttpRequest request, Guid newResourceId)
+        {
+            var builder = new UriBuilder
+            {
+                Scheme = request.Scheme,
+                Host = request.Host.Host,
+                Path = request.Path.Add(new PathString($"/{newResourceId}"))
+            };
+            if (request.Host.Port.HasValue)
+            {
+                builder.Port = request.Host.Port.Value;
+            }
+            return builder.Uri;
         }
 
         [HttpPut("{id}")]

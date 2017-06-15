@@ -25,7 +25,7 @@ namespace Board.Api.Domain.Services
                 if (project.IsValid)
                 {
                     await _eventStore.SaveAggregateAsync(project);
-                    return CommandResult.Success();
+                    return CommandResult.Success(project.Id);
                 }
                 return CommandResult.Fail(project.ViolatedRules);
             }
@@ -52,10 +52,10 @@ namespace Board.Api.Domain.Services
                 if (project.IsValid)
                 {
                     await _eventStore.SaveAggregateAsync(project);
-                    return CommandResult.Success();
+                    return CommandResult.Success(project.Id);
                 }
 
-                return CommandResult.Fail((string[]) project.ViolatedRules);
+                return CommandResult.Fail(project.ViolatedRules);
             }
             catch (Exception ex)
             {

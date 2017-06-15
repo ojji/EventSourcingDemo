@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Board.Common.Commands
 {
@@ -13,11 +14,13 @@ namespace Board.Common.Commands
 
     public class CommandResult
     {
+        public Guid AffectedAggregate { get; }
         public string[] FailReasons { get; }
         public bool IsSuccessful => FailReasons == null;
 
-        private CommandResult()
+        private CommandResult(Guid affectedAggregate)
         {
+            AffectedAggregate = affectedAggregate;
         }
 
         private CommandResult(string[] failReasons)
@@ -25,9 +28,9 @@ namespace Board.Common.Commands
             FailReasons = failReasons;
         }
 
-        public static CommandResult Success()
+        public static CommandResult Success(Guid affectedAggregate)
         {
-            return new CommandResult();
+            return new CommandResult(affectedAggregate);
         }
 
         public static CommandResult Fail(string reason)
