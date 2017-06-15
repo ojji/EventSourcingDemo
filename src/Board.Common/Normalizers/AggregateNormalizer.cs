@@ -6,9 +6,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Board.Common.Normalizers
 {
-    /// <summary>
-    /// Az eventstoreban létrehozunk egy feliratkozást. (kell hozzá a stream neve)
-    /// </summary>
     public abstract class AggregateNormalizer<TAggregate> where TAggregate : AggregateRoot
     {
         private readonly IEventStoreConnection _eventStoreConnection;
