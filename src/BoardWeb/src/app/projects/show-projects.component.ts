@@ -3,11 +3,11 @@ import { Project } from './project';
 import { ProjectService } from './project.service';
 
 @Component({
-	selector: 'projects-dashboard',
-	templateUrl: './projects-dashboard.component.html',
-	styleUrls: [ './projects-dashboard.component.scss' ]
+	selector: 'show-projects',
+	templateUrl: './show-projects.component.html',
+	styleUrls: [ './show-projects.component.scss' ]
 })
-export class ProjectsDashboardComponent implements OnInit {
+export class ShowProjectsComponent implements OnInit {
 	projects: Project[];
 	errorMessage: string;
 

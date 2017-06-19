@@ -9,7 +9,7 @@ import { AppRoutesModule } from './app-routes.module';
 
 import { AppComponent } from './app.component';
 import { MessagesComponent } from './messages.component';
-import { ProjectsDashboardComponent } from './projects/projects-dashboard.component';
+import { ShowProjectsComponent } from './projects/show-projects.component';
 import { CreateProjectComponent } from './projects/create-project.component';
 
 import { ProjectService } from './projects/project.service'
@@ -26,7 +26,7 @@ import { ProjectService } from './projects/project.service'
     declarations: [ 
     	AppComponent,
     	MessagesComponent,
-    	ProjectsDashboardComponent,
+        ShowProjectsComponent,
         CreateProjectComponent ],
     bootstrap: [ AppComponent ]
 })

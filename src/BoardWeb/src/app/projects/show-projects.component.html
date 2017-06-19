@@ -3,7 +3,7 @@
 
 <div class="row expanded">
 	<div *ngFor="let project of projects" class="small-12 medium-6 large-4 column">
-		<div class="project-card" [ngClass]="{'completed': project.isCompleted}">
+		<a [routerLink]="['/project-dashboard', project.projectId]" class="project-card" [ngClass]="{'completed': project.isCompleted}">
 			<div class="project-card-content">
 				<p *ngIf="!project.isCompleted" class="project-status">Sprint #1</p>
 				<p *ngIf="project.isCompleted" class="project-status">Completed project</p>
@@ -31,6 +31,6 @@
 				<span class="member">A</span>
 				<span class="member">A</span>
 			</div>
-		</div>
+		</a>
 	</div>
 </div>
