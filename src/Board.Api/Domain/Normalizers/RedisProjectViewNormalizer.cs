@@ -31,6 +31,7 @@ namespace Board.Api.Domain.Normalizers
             {
                 ProjectId = @event.ProjectId,
                 ProjectName = @event.ProjectName,
+                ProjectAbbreviation = @event.ProjectAbbreviation,
                 Description = @event.Description,
                 ProjectType = @event.ProjectType.ToProjectTypeString(),
                 IsCompleted = false

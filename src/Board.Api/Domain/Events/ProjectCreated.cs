@@ -9,14 +9,16 @@ namespace Board.Api.Domain.Events
 
         public Guid ProjectId { get; }
         public string ProjectName { get; }
+        public string ProjectAbbreviation { get; }
         public string Description { get; }
         public ProjectType ProjectType { get; }
 
-        public ProjectCreated(Guid projectId, string projectName, string description, ProjectType projectType)
+        public ProjectCreated(Guid projectId, string projectName, string projectAbbreviation, string description, ProjectType projectType)
         {
             EventId = Guid.NewGuid();
             ProjectId = projectId;
             ProjectName = projectName;
+            ProjectAbbreviation = projectAbbreviation;
             Description = description;
             ProjectType = projectType;
         }

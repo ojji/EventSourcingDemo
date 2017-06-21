@@ -11,11 +11,12 @@ namespace Board.Api.Domain
         IDomainEventHandler<ProjectTypeChanged>
     {
         public string Name { get; private set; }
+        public string ProjectAbbreviation { get; private set; }
         public ProjectType ProjectType { get; private set; }
         public string Description { get; private set; }
         public bool IsCompleted { get; private set; }
 
-        public void Create(string projectName, string description, ProjectType projectType)
+        public void Create(string projectName, string projectAbbreviation, string description, ProjectType projectType)
         {
             if (Version != 0)
             {
@@ -25,12 +26,16 @@ namespace Board.Api.Domain
             {
                 AddViolatedRule("The project name cannot be empty.");
             }
+            if (string.IsNullOrEmpty(projectAbbreviation))
+            {
+                AddViolatedRule("The project abbreviation cannot be empty.");
+            }
             if (!IsValid)
             {
                 return;
             }
             Id = Guid.NewGuid();
-            Publish(new ProjectCreated(Id, projectName, description, projectType));
+            Publish(new ProjectCreated(Id, projectName, projectAbbreviation, description, projectType));
         }
         
         public void ChangeDescription(string newDescription)
@@ -52,6 +57,7 @@ namespace Board.Api.Domain
         {
             Id = @event.ProjectId;
             Name = @event.ProjectName;
+            ProjectAbbreviation = @event.ProjectAbbreviation;
             Description = @event.Description;
             ProjectType = @event.ProjectType;
             IsCompleted = false;

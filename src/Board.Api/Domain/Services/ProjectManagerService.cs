@@ -18,7 +18,7 @@ namespace Board.Api.Domain.Services
         public async Task<CommandResult> Handle(CreateProjectCommand command)
         {
             var project = new Project();
-            project.Create(command.ProjectName, command.Description, command.ProjectType);
+            project.Create(command.ProjectName, command.ProjectAbbreviation, command.Description, command.ProjectType);
 
             try
             {

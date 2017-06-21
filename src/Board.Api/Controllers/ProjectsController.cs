@@ -51,6 +51,7 @@ namespace Board.Api.Controllers
             var commandResult = await _projectManagerService.Handle(
                 new CreateProjectCommand(
                     newProject.ProjectName,
+                    newProject.ProjectAbbreviation,
                     newProject.Description,
                     newProject.ProjectType.ToProjectTypeEnum()
                 ));
