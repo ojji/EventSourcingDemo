@@ -7,7 +7,7 @@ using StackExchange.Redis;
 
 namespace Board.Api.Domain.Repositories
 {
-    public class ProjectRepository
+    public class ProjectRepository : IProjectRepository
     {
         private readonly IConnectionMultiplexer _redisConnection;
         private readonly ILogger<ProjectRepository> _logger;

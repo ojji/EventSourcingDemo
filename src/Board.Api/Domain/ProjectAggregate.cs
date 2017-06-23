@@ -22,11 +22,11 @@ namespace Board.Api.Domain
             {
                 AddViolatedRule("The project was already created.");
             }
-            if (string.IsNullOrEmpty(projectName))
+            if (string.IsNullOrWhiteSpace(projectName))
             {
                 AddViolatedRule("The project name cannot be empty.");
             }
-            if (string.IsNullOrEmpty(projectAbbreviation))
+            if (string.IsNullOrWhiteSpace(projectAbbreviation))
             {
                 AddViolatedRule("The project abbreviation cannot be empty.");
             }
@@ -40,7 +40,10 @@ namespace Board.Api.Domain
         
         public void ChangeDescription(string newDescription)
         {
-            Publish(new ProjectDescriptionChanged(Id, Description, newDescription));
+            if (Description != newDescription)
+            {
+                Publish(new ProjectDescriptionChanged(Id, Description, newDescription));
+            }
         }
 
         public void ChangeProjectType(ProjectType newProjectType)

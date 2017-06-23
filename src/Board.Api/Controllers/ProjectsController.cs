@@ -16,11 +16,11 @@ namespace Board.Api.Controllers
     public class ProjectsController : Controller
     {
         private readonly IProjectManagerService _projectManagerService;
-        private readonly ProjectRepository _projectRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly ILogger<ProjectsController> _logger;
 
         public ProjectsController(IProjectManagerService projectManagerService,
-            ProjectRepository projectRepository, 
+            IProjectRepository projectRepository, 
             ILogger<ProjectsController> logger)
         {
             _projectManagerService = projectManagerService;
@@ -48,6 +48,10 @@ namespace Board.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProject([FromBody]CreateProjectDto newProject)
         {
+            if (newProject == null)
+            {
+                return BadRequest();
+            }
             var commandResult = await _projectManagerService.Handle(
                 new CreateProjectCommand(
                     newProject.ProjectName,

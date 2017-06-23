@@ -15,9 +15,9 @@ namespace Board.Api.Domain.Normalizers
         IDomainEventHandler<ProjectTypeChanged>
     {
         private readonly ILogger<RedisProjectViewNormalizer> _logger;
-        private readonly ProjectRepository _projectRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public RedisProjectViewNormalizer(IEventStoreConnection eventStoreConnection, ILogger<RedisProjectViewNormalizer> logger, ProjectRepository projectRepository) : base(eventStoreConnection, (ILogger<AggregateNormalizer<Project>>) logger) 
+        public RedisProjectViewNormalizer(IEventStoreConnection eventStoreConnection, ILogger<RedisProjectViewNormalizer> logger, IProjectRepository projectRepository) : base(eventStoreConnection, (ILogger<AggregateNormalizer<Project>>) logger) 
         {
             _logger = logger;
             _projectRepository = projectRepository;
