@@ -52,6 +52,22 @@ namespace Board.Api.Controllers
             {
                 return BadRequest();
             }
+
+            // We have to check whether the project name and the project abbreviation is unique.
+            // NOTE: there is a race condition window with two commands with the same values,
+            // but the chances of happening is too low. However if this becomes a problem in the future,
+            // we could create an event handler to the create command which checks if there is a created
+            // project with the name or abbreviation already and in that case could issue compensating commands.
+            if (_projectRepository.GetProjectByName(newProject.ProjectName) != null)
+            {
+                return BadRequest("The project name is already taken");
+            }
+
+            if (_projectRepository.GetProjectByAbbreviation(newProject.ProjectAbbreviation) != null)
+            {
+                return BadRequest("The project abbreviation is already taken");
+            }
+
             var commandResult = await _projectManagerService.Handle(
                 new CreateProjectCommand(
                     newProject.ProjectName,

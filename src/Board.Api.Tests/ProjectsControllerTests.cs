@@ -155,6 +155,52 @@ namespace Board.Api.Tests
 
                 Assert.EndsWith("/11111111-1111-1111-1111-111111111111", result.Location);
             }
+
+            [Fact]
+            public async Task When_the_project_name_is_already_taken_it_should_return_a_BadRequest()
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr => pr.GetProjectByName("Project1"))
+                    .Returns(new ProjectReadModel()
+                    {
+                        ProjectId = Guid.Parse("11111111-1111-1111-1111-111111111111")
+                    });
+
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+
+                var result = Assert.IsType<BadRequestObjectResult>(
+                    await subject.CreateProject(
+                        new CreateProjectDto("Project1", "Desc", "VP", "Kanban")
+                        ));
+                Assert.Contains("project name", (string)result.Value);
+            }
+
+            [Fact]
+            public async Task When_the_project_abbreviation_is_already_taken_it_should_return_a_BadRequest()
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr => pr.GetProjectByAbbreviation("prj-1"))
+                    .Returns(new ProjectReadModel
+                    {
+                        ProjectId = Guid.Parse("11111111-1111-1111-1111-111111111111")
+                    });
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var result = Assert.IsType<BadRequestObjectResult>(
+                    await subject.CreateProject(
+                        new CreateProjectDto("Project1", "Desc", "prj-1", "Kanban")
+                        ));
+                Assert.Contains("project abbreviation", (string)result.Value);
+            }
         }
     }
 }
