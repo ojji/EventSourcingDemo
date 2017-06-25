@@ -24,6 +24,7 @@ namespace Board.Api
             services.AddMvc();
             services.AddTransient<IEventStore, Board.Common.Events.EventStore>();
             services.AddTransient<IProjectManagerService, ProjectManagerService>();
+            services.AddTransient<ProjectKeyConfiguration>(provider => ProjectKeyConfiguration.Default);
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddSingleton<RedisProjectViewNormalizer>();
             services.AddSingleton<IEventStoreConnection>(provider =>

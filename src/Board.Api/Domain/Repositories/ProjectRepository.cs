@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Board.Api.Domain.ReadModels;
 using Board.Common.Utils;
 using Microsoft.Extensions.Logging;
@@ -11,17 +12,19 @@ namespace Board.Api.Domain.Repositories
     {
         private readonly IConnectionMultiplexer _redisConnection;
         private readonly ILogger<ProjectRepository> _logger;
+        private readonly ProjectKeyConfiguration _redisKeys;
 
-        public ProjectRepository(IConnectionMultiplexer redisConnection, ILogger<ProjectRepository> logger)
+        public ProjectRepository(IConnectionMultiplexer redisConnection, ILogger<ProjectRepository> logger, ProjectKeyConfiguration redisKeys)
         {
             _redisConnection = redisConnection;
             _logger = logger;
+            _redisKeys = redisKeys;
         }
 
         public IEnumerable<ProjectReadModel> GetAll()
         {
             var db = _redisConnection.GetDatabase();
-            foreach (var projectId in db.SetMembers(RedisKeys.SetKey))
+            foreach (var projectId in db.SetMembers(_redisKeys.SetKey))
             {
                 yield return GetProjectById(Guid.Parse(projectId));
             }
@@ -30,18 +33,55 @@ namespace Board.Api.Domain.Repositories
         public ProjectReadModel GetProjectById(Guid id)
         {
             var db = _redisConnection.GetDatabase();
-            if (db.KeyExists(RedisKeys.GetHashKey(id)))
+            if (db.KeyExists(_redisKeys.GetHashKey(id)))
             {
-                return db.HashGetAll(RedisKeys.GetHashKey(id)).FromRedis<ProjectReadModel>();
+                return db.HashGetAll(_redisKeys.GetHashKey(id)).FromRedis<ProjectReadModel>();
             }
             return null;
+        }
+
+        public ProjectReadModel GetProjectByName(string projectName)
+        {
+            if (string.IsNullOrWhiteSpace(projectName))
+            {
+                return null;
+            }
+
+            var db = _redisConnection.GetDatabase();
+            var redisSearchTerm = projectName.ToLowerInvariant();
+            var projectId = db.SortedSetRangeByValue(
+                _redisKeys.ProjectNameIndexKey, 
+                redisSearchTerm,
+                $"{redisSearchTerm}\xff")
+                .Where(prj => string.Equals(GetOriginalValue(RemoveGuidFromString(prj)),
+                        projectName, StringComparison.OrdinalIgnoreCase))
+                .Select(prj => GetGuidFromString(prj)).FirstOrDefault();
+
+            return projectId == null ? null : GetProjectById(Guid.Parse(projectId));
+        }
+
+        public ProjectReadModel GetProjectByAbbreviation(string projectAbbreviation)
+        {
+            if (string.IsNullOrWhiteSpace(projectAbbreviation))
+            {
+                return null;
+            }
+            var db = _redisConnection.GetDatabase();
+            var searchTerm = projectAbbreviation.ToLowerInvariant();
+            var projectId = 
+                db.SortedSetRangeByValue(_redisKeys.ProjectAbbreviationIndexKey, searchTerm, $"{searchTerm}\xff")
+                .Where(prj => string.Equals(GetOriginalValue(RemoveGuidFromString(prj)),
+                        projectAbbreviation, StringComparison.OrdinalIgnoreCase))
+                .Select(prj => GetGuidFromString(prj)).FirstOrDefault();
+
+            return projectId == null ? null : GetProjectById(Guid.Parse(projectId));
         }
 
         public long GetCurrentVersion()
         {
             var redisDatabase = _redisConnection.GetDatabase();
-            redisDatabase.StringSet(RedisKeys.VersionKey, 0, null, When.NotExists);
-            return (long)redisDatabase.StringGet(RedisKeys.VersionKey);
+            redisDatabase.StringSet(_redisKeys.VersionKey, 0, null, When.NotExists);
+            return (long)redisDatabase.StringGet(_redisKeys.VersionKey);
         }
 
         public void Save(ProjectReadModel readModel, bool justCreated = false)
@@ -49,11 +89,16 @@ namespace Board.Api.Domain.Repositories
             var redisDatabase = _redisConnection.GetDatabase();
 
             var transaction = redisDatabase.CreateTransaction();
-            transaction.StringIncrementAsync(RedisKeys.VersionKey);
-            transaction.HashSetAsync(RedisKeys.GetHashKey(readModel.ProjectId), readModel.ToRedis());
+            transaction.StringIncrementAsync(_redisKeys.VersionKey);
+            transaction.HashSetAsync(_redisKeys.GetHashKey(readModel.ProjectId), readModel.ToRedis());
             if (justCreated)
             {
-                transaction.SetAddAsync(RedisKeys.SetKey, readModel.ProjectId.ToString());
+                // guid set
+                transaction.SetAddAsync(_redisKeys.SetKey, readModel.ProjectId.ToString());
+                // name index
+                transaction.SortedSetAddAsync(_redisKeys.ProjectNameIndexKey, $"{readModel.ProjectName.ToLowerInvariant()}:{readModel.ProjectName}:{readModel.ProjectId}", 0);
+                // abbr index
+                transaction.SortedSetAddAsync(_redisKeys.ProjectAbbreviationIndexKey, $"{readModel.ProjectAbbreviation.ToLowerInvariant()}:{readModel.ProjectAbbreviation}:{readModel.ProjectId}", 0);
             }
 
             if (!transaction.Execute())
@@ -61,16 +106,21 @@ namespace Board.Api.Domain.Repositories
                 _logger.LogError("Could not save the readmodel to the database.");
             }
         }
-
-        private static class RedisKeys
+        
+        private string GetOriginalValue(string valueWithLowerInvariant)
         {
-            public static string GetHashKey(Guid projectId)
-            {
-                return $"{SetKey}:{projectId}";
-            }
+            // the string should be in a "xxx:XXX" format and we have to return the second half
+            return valueWithLowerInvariant.Substring(valueWithLowerInvariant.Length / 2 + 1);
+        }
 
-            public const string SetKey = "projects";
-            public const string VersionKey = "projects:version";
+        private string RemoveGuidFromString(string stringWithGuid)
+        {
+            return stringWithGuid.Remove(stringWithGuid.Length - ":00000000-0000-0000-0000-000000000000".Length);
+        }
+
+        private string GetGuidFromString(string stringWithGuid)
+        {
+            return stringWithGuid.Substring(stringWithGuid.Length - "00000000-0000-0000-0000-000000000000".Length);
         }
     }
 }

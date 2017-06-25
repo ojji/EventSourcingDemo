@@ -8,6 +8,8 @@ namespace Board.Api.Domain.Repositories
     {
         IEnumerable<ProjectReadModel> GetAll();
         ProjectReadModel GetProjectById(Guid id);
+        ProjectReadModel GetProjectByName(string projectName);
+        ProjectReadModel GetProjectByAbbreviation(string projectAbbreviation);
         long GetCurrentVersion();
 
         void Save(ProjectReadModel readModel, bool justCreated = false);
