@@ -37,10 +37,12 @@ namespace Board.Common.Utils
 
         public static void RegisterType<T>()
         {
-            var getSetProperties = typeof(T).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public |
+            var getSetProperties = typeof(T).GetProperties(BindingFlags.DeclaredOnly | 
+                                                     BindingFlags.Public |
                                                      BindingFlags.Instance |
-                                                     BindingFlags.GetProperty | BindingFlags.SetProperty)
-                                                     .Where(p => p.GetSetMethod() != null);
+                                                     BindingFlags.GetProperty | 
+                                                     BindingFlags.SetProperty)
+                                            .Where(p => p.GetSetMethod() != null);
             RegisterType<T>(getSetProperties.Select(p => p.Name).ToArray());
         }
 
