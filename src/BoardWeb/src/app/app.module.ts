@@ -10,7 +10,11 @@ import { AppRoutesModule } from './app-routes.module';
 import { AppComponent } from './app.component';
 import { MessagesComponent } from './messages.component';
 import { ShowProjectsComponent } from './projects/show-projects.component';
+import { ProjectDashboardComponent } from './projects/project-dashboard.component';
 import { CreateProjectComponent } from './projects/create-project.component';
+
+import { UniqueNameValidatorDirective } from './projects/unique-name.directive';
+import { UniqueAbbreviationValidatorDirective } from './projects/unique-abbreviation.directive';
 
 import { ProjectService } from './projects/project.service'
 
@@ -27,7 +31,11 @@ import { ProjectService } from './projects/project.service'
     	AppComponent,
     	MessagesComponent,
         ShowProjectsComponent,
-        CreateProjectComponent ],
+    	ProjectDashboardComponent,
+        CreateProjectComponent,
+        UniqueNameValidatorDirective,
+        UniqueAbbreviationValidatorDirective
+        ],
     bootstrap: [ AppComponent ]
 })
 export class AppModule { }

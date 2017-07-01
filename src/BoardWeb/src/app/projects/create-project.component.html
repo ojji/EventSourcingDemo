@@ -3,10 +3,18 @@
 <div class="row expanded">
 	<div class="small-12 large-8 column">
 		<form #createProjectForm="ngForm" (ngSubmit)="onCreate(createProjectForm.value, createProjectForm.valid)" novalidate>
-			<label for="name">*Project name:</label>
-			<input type="text" [(ngModel)]="project.projectName" name="projectName" required placeholder="Enter project name..." #projectName="ngModel" />
+			<label for="projectName">*Project name:</label>
+			<input type="text" [(ngModel)]="project.projectName" name="projectName" uniquename required placeholder="Enter project name..." #projectName="ngModel" />
 			<div [hidden]="projectName.valid || projectName.untouched" class="errorlabel">
-				<span>The project name is required.</span>
+				<span *ngIf="projectName.hasError('required')">The project name is required.</span>
+				<span *ngIf="projectName.hasError('unique')">The project name is already taken.</span>
+			</div>
+
+			<label for="projectAbbreviation">*Project ID:</label>
+			<input type="text" [(ngModel)]="project.projectAbbreviation" name="projectAbbreviation" uniqueabbreviation required placeholder="Enter project ID..." #projectAbbreviation="ngModel" />
+			<div [hidden]="projectAbbreviation.valid || projectAbbreviation.untouched" class="errorlabel">
+				<span *ngIf="projectAbbreviation.hasError('required')">The project ID is required.</span>
+				<span *ngIf="projectAbbreviation.hasError('unique')">The project ID is already taken.</span>
 			</div>
 
 			<label for="description">Description:</label>

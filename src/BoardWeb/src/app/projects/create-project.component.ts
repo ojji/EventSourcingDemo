@@ -22,8 +22,10 @@ export class CreateProjectComponent {
 		if (isValid) {
 			this.projectService.createProject(model)
 				.subscribe(
-					next => this.router.navigate(['/projects-dashboard']),
-					error => console.error(error));
+					newProjectId => 
+						setTimeout(() => this.router.navigate(['/project-dashboard', newProjectId], 1500)),
+					error => 
+						console.error(error));
 		}
 	}
 
