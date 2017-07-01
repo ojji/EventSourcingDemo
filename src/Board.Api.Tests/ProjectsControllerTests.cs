@@ -202,5 +202,135 @@ namespace Board.Api.Tests
                 Assert.Contains("project abbreviation", (string)result.Value);
             }
         }
+
+        public class CheckProjectName
+        {
+            [Theory]
+            [InlineData((string)null)]
+            [InlineData("")]
+            [InlineData(" ")]
+            public void When_the_project_name_is_null_or_empty_it_should_return_BadRequest(string projectName)
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr =>
+                        pr.GetProjectByName(It.IsAny<string>()))
+                    .Returns((ProjectReadModel)null);
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var result = Assert.IsType<BadRequestObjectResult>(subject.CheckProjectName(projectName));
+                Assert.Contains("project name", (string)result.Value);
+            }
+
+            [Fact]
+            public void When_the_project_name_is_not_taken_it_should_return_available()
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr =>
+                        pr.GetProjectByName(It.IsAny<string>()))
+                    .Returns((ProjectReadModel)null);
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var jsonResult = Assert.IsType<JsonResult>(subject.CheckProjectName("available project name"));
+                var result = Assert.IsType<ProjectNameAvailableDto>(jsonResult.Value);
+                Assert.Equal("available project name", result.ProjectName);
+                Assert.True(result.IsAvailable);
+            }
+
+            [Fact]
+            public void When_the_project_name_is_taken_it_should_return_unavailable()
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr =>
+                        pr.GetProjectByName("Taken project name"))
+                    .Returns(new ProjectReadModel
+                    {
+                        ProjectId = Guid.Empty,
+                        ProjectName = "Taken project name"
+                    });
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var jsonResult = Assert.IsType<JsonResult>(subject.CheckProjectName("Taken project name"));
+                var result = Assert.IsType<ProjectNameAvailableDto>(jsonResult.Value);
+                Assert.Equal("Taken project name", result.ProjectName);
+                Assert.False(result.IsAvailable);
+            }
+        }
+
+        public class CheckProjectAbbreviation
+        {
+            [Theory]
+            [InlineData((string)null)]
+            [InlineData("")]
+            [InlineData(" ")]
+            public void When_the_project_abbreviation_is_null_or_empty_it_should_return_BadRequest(string projectAbbreviation)
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr =>
+                        pr.GetProjectByAbbreviation(It.IsAny<string>()))
+                    .Returns((ProjectReadModel)null);
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var result = Assert.IsType<BadRequestObjectResult>(subject.CheckProjectAbbreviation(projectAbbreviation));
+                Assert.Contains("project abbreviation", (string)result.Value);
+            }
+
+            [Fact]
+            public void When_the_project_abbreviation_is_not_taken_it_should_return_available()
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr =>
+                        pr.GetProjectByAbbreviation("PRJ1"))
+                    .Returns((ProjectReadModel)null);
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var jsonResult = Assert.IsType<JsonResult>(subject.CheckProjectAbbreviation("PRJ1"));
+                var result = Assert.IsType<ProjectAbbreviationAvailableDto>(jsonResult.Value);
+                Assert.Equal("PRJ1", result.ProjectAbbreviation);
+                Assert.True(result.IsAvailable);
+            }
+
+            [Fact]
+            public void When_the_project_abbreviation_is_taken_it_should_return_unavailable()
+            {
+                var projectRepository = new Mock<IProjectRepository>();
+                projectRepository.Setup(pr =>
+                        pr.GetProjectByAbbreviation("TAKENPRJ1"))
+                    .Returns(new ProjectReadModel
+                    {
+                        ProjectId = Guid.Empty,
+                        ProjectAbbreviation = "TakenPRJ1"
+                    });
+
+                var subject = new ProjectsController(
+                    Mock.Of<IProjectManagerService>(),
+                    projectRepository.Object,
+                    Mock.Of<ILogger<ProjectsController>>());
+
+                var jsonResult = Assert.IsType<JsonResult>(subject.CheckProjectAbbreviation("TAKENPRJ1"));
+                var result = Assert.IsType<ProjectAbbreviationAvailableDto>(jsonResult.Value);
+                Assert.Equal("TAKENPRJ1", result.ProjectAbbreviation);
+                Assert.False(result.IsAvailable);
+            }
+        }
     }
 }

@@ -34,6 +34,36 @@ namespace Board.Api.Controllers
             return Json(_projectRepository.GetAll().Select(p => new { p.ProjectId, p.ProjectName, p.ProjectType }));
         }
 
+        [HttpGet("checkprojectname")]
+        public IActionResult CheckProjectName(string projectName)
+        {
+            if (string.IsNullOrWhiteSpace(projectName))
+            {
+                return BadRequest("Invalid project name");
+            }
+
+            return Json(new ProjectNameAvailableDto
+            {
+                ProjectName = projectName,
+                IsAvailable = _projectRepository.GetProjectByName(projectName) == null
+            });
+        }
+
+        [HttpGet("checkprojectabbreviation")]
+        public IActionResult CheckProjectAbbreviation(string projectAbbreviation)
+        {
+            if (string.IsNullOrWhiteSpace(projectAbbreviation))
+            {
+                return BadRequest("Invalid project abbreviation");
+            }
+
+            return Json(new ProjectAbbreviationAvailableDto
+            {
+                ProjectAbbreviation = projectAbbreviation,
+                IsAvailable = _projectRepository.GetProjectByAbbreviation(projectAbbreviation) == null
+            });
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetProjectById(Guid id)
         {
