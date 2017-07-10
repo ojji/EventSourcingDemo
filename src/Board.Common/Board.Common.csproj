@@ -8,7 +8,7 @@
     <PackageReference Include="EventStore.ClientAPI.NetCore" Version="4.0.0-alpha-1" />
     <PackageReference Include="FastMember" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="StackExchange.Redis" Version="1.2.3" />
+    <PackageReference Include="StackExchange.Redis" Version="1.2.4" />
   </ItemGroup>
 
 </Project>
